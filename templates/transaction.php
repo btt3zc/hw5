@@ -11,7 +11,7 @@
     <body>
         <div class="container" style="margin-top: 15px;">
             <div class="row col-xs-8">
-                <h1>CS4640 Wordle Game - Get Started</h1>
+                <h1>Please Submit Transaction</h1>
                 <p> Welcome to our Wordle game!  To get started, enter a username and password.</p>
             </div>
             <div class="row justify-content-center">
@@ -21,23 +21,38 @@
                         echo "<div class='alert alert-danger'>$error_msg</div>";
                     }
                 ?>
-                <form action="?command=login" method="post">
+                <form action="?command=transaction" method="post">
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email"/>
+                        <label for="Name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="Name" name="Name"/>
                     </div>
                     <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" name="name"/>
+                        <label for="Category" class="form-label">Category</label>
+                        <input type="text" class="form-control" id="Category" name="Catgory"/>
                     </div>
 
                     <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="text" class="form-control" id="password" name="password"/>
+                        <label for="Date" class="form-label">Date</label>
+                        <input type="text" class="form-control" id="Date" name="Date"/>
                     </div>
+
+                    <div class="mb-3">
+                        <label for="Amount" class="form-label">Amount</label>
+                        <input type="text" class="form-control" id="Amount" name="Amount"/>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Type" class="form-label">Type</label>
+                        <input type="text" class="form-control" id="Type" name="Type"/>
+                    </div>
+
+                    <select name="Type" id="Type">
+                        <option value="Debit">Debit</option>
+                        <option value="Credit">Credit</option>
+                    </select> Type <br>
 
                     <div class="text-center">                
-                    <button type="submit" class="btn btn-primary">Play Wordle</button>
+                    <button type="submit" class="btn btn-primary">submit transaction</button>
                     </div>
                 </form>
                 </div>

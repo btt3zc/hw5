@@ -57,6 +57,7 @@ private function login() {
         password text not null, 
         primary key(id)); "); 
 
+    
     if (isset($_POST["email"])) {
         $data = $this->db->query("select * from user where email = ?;", "s", $_POST["email"]);
         if ($data === false) {
@@ -75,8 +76,8 @@ private function login() {
             // Note: never store clear-text passwords in the database
             //       PHP provides password_hash() and password_verify()
             //       to provide password verification
-            $insert = $this->db->query("insert into user (name, email, password) values (?, ?, ?);", 
-                    "sss", $_POST["name"], $_POST["email"], 
+            $insert = $this->db->query("insert into user (email, name, password) values (?, ?, ?);", 
+                    "sss", $_POST["email"], $_POST["name"], 
                     password_hash($_POST["password"], PASSWORD_DEFAULT));
             if ($insert === false) {
                 $error_msg = "Error inserting user";
@@ -167,97 +168,48 @@ private function login() {
     // Display the question template (and handle question logic)
     public function question() {
         // set user information for the page from the cookie
-        $user = [
-            "name" => $_SESSION["name"],
-            "email" => $_SESSION["email"],
-        ];
 
-        // load the word
-        //if (isset($question) == False) {
-        //    $this->loadQuestion();
-        //    $question = $_SESSION["target_word"];
-       // }
-        $question = $this->loadQuestion();
-        $this->addGuess();
-        $this->addLength(); 
-        $this->correct(); 
-        $this->in_word();
-        $l_in_word = 0;
-        $correct_letters = 0;
-        if (isset($_POST["answer"])) { 
-            array_push($_SESSION["guess"],$_POST["answer"]);
-            if(strcasecmp($question,$_POST["answer"])  == 0){
-                header("Location: ?command=gameover");
-            }
 
-            elseif(strlen($question) == strlen($_POST["answer"]) ) {
-                // lengths are the same
-                array_push($_SESSION["guess_length"], "correct word length");
-                
-                for($i = 0; $i < strlen($_POST["answer"]);  $i++) { 
-                    // case for same letters
-                    //strpos($_POST["answer"][$i], $question[$i])
-                    if(strcasecmp($question[$i],$_POST["answer"][$i])  == 0 ) {
-                        $correct_letters += 1;
-                    }
-                    //case for in word 
-                    else {
-                        for($j = 0; $j < strlen($question);  $j++) {
-                            if ($this->CheckWord($question,$_POST["answer"], $i,$j) == 1) { 
-                                $l_in_word += 1;
-                                break;
-                            } 
-                            
-                        }
-                        //echo $in_word; 
-                    
-                        //echo  $_POST["answer"][$i]; 
-                        
+        $this->db->query("
+            CREATE TABLE IF NOT EXISTS hw5_transaction (
+            id int not null AUTO_INCREMENT, 
+            Name text not null, 
+            Category text not null, 
+            t_date date not Null, 
+            amount decimal(10,2) not null, 
+`           T text not null, 
+            primary key(id)); ");
+            
+
+            if (isset($_POST["Name"])) {
+                if(($_POST["Type"] == "Debit" && $_POST["Amount"] > 0) || ($_POST["Type"] == "Credit"  && $_POST["Amount"] < 0  )  ) {
+                    $error_msg = "Debit needs to be less than or equal to 0 and credit needs to more than or equal to 0";
+                } else { // empty, no user found
+                    // TODO: input validation
+                    // Note: never store clear-text passwords in the database
+                    //       PHP provides password_hash() and password_verify()
+                    //       to provide password verification
+                    $insert = $this->db->query("insert into user (Name, Category, t_date,amount,T) values (?, ?, ?,?,?);", 
+                            "sssss", $_POST["Name"], $_POST["Category"], $_POST["Date"], $_POST["Amount"], $_POST["Type"]
+                            );
+                    if ($insert === false) {
+                        $error_msg = "Error inserting user";
+                    } else {
+                        $_SESSION["Name"] = $_POST["Name"]; 
+                        $_SESSION["Category"] = $_POST["Category"]; 
+                        $_SESSION["Date"] = $_POST["Date"]; 
+                        $_SESSION["Amount"] = $_POST["Amount"]; 
+                        $_SESSION["Type"] = $_POST["Type"]; 
+                        header("Location: ?command=question");
                     }
                 }
-                array_push($_SESSION["letters_in_word"],$l_in_word);
-                array_push($_SESSION["correct_letter"],$correct_letters);
-            } else {
-                //lengths are not the same
-                $length_1 = strlen($question); 
-                $length_2 = strlen($_POST["answer"]); 
-                if($length_1 >  $length_2 ) {
-                    array_push($_SESSION["guess_length"], "too short");
-                    $shortest = $length_2; 
-                } else {
-                    $shortest = $length_1; 
-                    array_push($_SESSION["guess_length"], "too long");
-                }
-                for($i = 0; $i < $shortest;  $i++) { 
-                    // case for same letters
-                    //strpos($_POST["answer"][$i], $question[$i])
-                    if(  strcasecmp($question[$i],$_POST["answer"][$i])  == 0 ) {
-                        $correct_letters += 1;
-                    }
-                    //case for in word 
-                    else {
-                        for($j = 0; $j < strlen($question);  $j++) {
-                            if ($this->CheckWord($question,$_POST["answer"], $i,$j) == 1) {
-                                $l_in_word += 1;
-                                break;
-                            } 
-                        }
-                        //echo $in_word; 
-                    
-                        //echo  $_POST["answer"][$i]; 
-                        
-                    }
-                }
-                array_push($_SESSION["letters_in_word"],$l_in_word);
-                array_push($_SESSION["correct_letter"],$correct_letters);
-            }
+        
+            
 
+        include("templates/transaction.php");
         }
-
-        // if the user submitted an answer, check it
-
-        include("templates/question.php");
     }
+    
 
     public function gameover() {
         

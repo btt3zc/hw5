@@ -21,14 +21,14 @@
                         echo "<div class='alert alert-danger'>$error_msg</div>";
                     }
                 ?>
-                <form action="?command=transaction" method="post">
+                <form action="?command=question" method="post">
                     <div class="mb-3">
                         <label for="Name" class="form-label">Name</label>
                         <input type="text" class="form-control" id="Name" name="Name"/>
                     </div>
                     <div class="mb-3">
                         <label for="Category" class="form-label">Category</label>
-                        <input type="text" class="form-control" id="Category" name="Catgory"/>
+                        <input type="text" class="form-control" id="Category" name="Category"/>
                     </div>
 
                     <div class="mb-3">
@@ -41,10 +41,7 @@
                         <input type="text" class="form-control" id="Amount" name="Amount"/>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="Type" class="form-label">Type</label>
-                        <input type="text" class="form-control" id="Type" name="Type"/>
-                    </div>
+                    
 
                     <select name="Type" id="Type">
                         <option value="Debit">Debit</option>

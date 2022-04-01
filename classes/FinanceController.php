@@ -171,17 +171,18 @@ private function login() {
 
 
         $this->db->query("
-            CREATE TABLE IF NOT EXISTS hw5_transaction (
+        CREATE TABLE IF NOT EXISTS hw5_transaction(
             id int not null AUTO_INCREMENT, 
             Name text not null, 
             Category text not null, 
             t_date date not Null, 
             amount decimal(10,2) not null, 
-`           T text not null, 
+            Type text not null, 
             primary key(id)); ");
             
 
             if (isset($_POST["Name"])) {
+                //echo ($_POST["Amount"]); 
                 if(($_POST["Type"] == "Debit" && $_POST["Amount"] > 0) || ($_POST["Type"] == "Credit"  && $_POST["Amount"] < 0  )  ) {
                     $error_msg = "Debit needs to be less than or equal to 0 and credit needs to more than or equal to 0";
                 } else { // empty, no user found
@@ -189,7 +190,7 @@ private function login() {
                     // Note: never store clear-text passwords in the database
                     //       PHP provides password_hash() and password_verify()
                     //       to provide password verification
-                    $insert = $this->db->query("insert into user (Name, Category, t_date,amount,T) values (?, ?, ?,?,?);", 
+                    $insert = $this->db->query("insert into hw5_transaction (Name, Category, t_date,amount,Type) values (?, ?, ?,?,?);", 
                             "sssss", $_POST["Name"], $_POST["Category"], $_POST["Date"], $_POST["Amount"], $_POST["Type"]
                             );
                     if ($insert === false) {
@@ -206,8 +207,10 @@ private function login() {
         
             
 
-        include("templates/transaction.php");
+        //include("templates/transaction.php");
         }
+        include("templates/transaction.php");
+        
     }
     
 

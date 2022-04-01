@@ -5,6 +5,7 @@ class FinanceController {
 
     public function __construct($command) {
         $this->command = $command;
+        $this->db = new Database();
     }
 
     public function run() {
@@ -47,15 +48,52 @@ class FinanceController {
     // Display the login page (and handle login logic)
     public function login() {
         if (isset($_POST["email"]) && !empty($_POST["email"])) { /// validate the email coming in
-            $_SESSION["email"] = $_POST["email"]; 
-            $_SESSION["name"] = $_POST["name"]; 
-            $_SESSION["password"] = $_POST["password"];
-            header("Location: ?command=question");
-            return;
+            $data = $this->db->query("select * from user where email = ?;", "s", $_POST["email"]);
+            if ($data === false) {
+                $error_msg = "Error checking for user";
+            } else if (!empty($data)) {
+                if (password_verify($_POST["password"], $data[0]["password"])) {
+                    $_SESSION["email"] = $_POST["email"]; 
+                    $_SESSION["name"] = $_POST["name"]; 
+                    $_SESSION["password"] = $_POST["password"];
+                    header("Location: ?command=question");
+                } else {
+                    $error_msg = "Wrong password";
+                }
+            
         }
+        } else {
+            $insert = $this->db->query("insert into user (name, email, password) values (?, ?, ?);", 
+                        "sss", $_POST["name"], $_POST["email"], 
+                        password_hash($_POST["password"], PASSWORD_DEFAULT));
+            
+            if ($insert === false) {
+                $error_msg = "Error inserting user";
+            } else {
+                $_SESSION["email"] = $_POST["email"]; 
+                $_SESSION["name"] = $_POST["name"]; 
+                $_SESSION["password"] = $_POST["password"];
+                header("Location: ?command=question");
+                
+            }
+        }
+        
+        include("templates/login.php");
+}
 
-        include "templates/login.php";
+    public function transaction() {
+
     }
+
+    public function database() {
+        $servername = "localhost";
+        $username = "username";
+        $password = "password";
+
+    }
+
+
+
 
     // Load a question from the API
     private function loadQuestion() {

@@ -49,6 +49,14 @@ class FinanceController {
 
 
 private function login() {
+    $this->db->query("
+        CREATE TABLE IF NOT EXISTS USER(
+        id int not null AUTO_INCREMENT, 
+        email text not null, 
+        name text not null, 
+        password text not null, 
+        primary key(id)); "); 
+
     if (isset($_POST["email"])) {
         $data = $this->db->query("select * from user where email = ?;", "s", $_POST["email"]);
         if ($data === false) {

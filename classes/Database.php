@@ -25,4 +25,5 @@ class Database {
 
         return true;
     }
+
 }

@@ -24,7 +24,7 @@
                 <form action="?command=question" method="post">
                     <div class="mb-3">
                         <label for="Name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="Name" name="Name"/>
+                        <input type="text" class="form-control" id="Transaction_Name" name="Transaction_Name"/>
                     </div>
                     <div class="mb-3">
                         <label for="Category" class="form-label">Category</label>
@@ -49,9 +49,11 @@
                     </select> Type <br>
 
                     <div class="text-center">                
-                    <button type="submit" class="btn btn-primary">submit transaction</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>                  
                     </div>
                 </form>
+                
+
                 </div>
             </div>
         </div>

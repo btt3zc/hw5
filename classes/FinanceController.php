@@ -1,4 +1,5 @@
 <?php
+// 
 class FinanceController {
 
     private $command;
@@ -180,8 +181,8 @@ private function login() {
             Type text not null, 
             primary key(id)); ");
             
-
-            if (isset($_POST["Name"])) {
+            
+            if (isset($_POST["Transaction_Name"])) {
                 //echo ($_POST["Amount"]); 
                 if(($_POST["Type"] == "Debit" && $_POST["Amount"] > 0) || ($_POST["Type"] == "Credit"  && $_POST["Amount"] < 0  )  ) {
                     $error_msg = "Debit needs to be less than or equal to 0 and credit needs to more than or equal to 0";
@@ -190,18 +191,20 @@ private function login() {
                     // Note: never store clear-text passwords in the database
                     //       PHP provides password_hash() and password_verify()
                     //       to provide password verification
+
                     $insert = $this->db->query("insert into hw5_transaction (Name, Category, t_date,amount,Type) values (?, ?, ?,?,?);", 
-                            "sssss", $_POST["Name"], $_POST["Category"], $_POST["Date"], $_POST["Amount"], $_POST["Type"]
+                            "sssss", $_POST["Transaction_Name"], $_POST["Category"], $_POST["Date"], $_POST["Amount"], $_POST["Type"]
                             );
                     if ($insert === false) {
                         $error_msg = "Error inserting user";
                     } else {
-                        $_SESSION["Name"] = $_POST["Name"]; 
+                        echo $_POST["Transaction_Name"];
+                        $_SESSION["Transaction_Name"] = $_POST["Transaction_Name"]; 
                         $_SESSION["Category"] = $_POST["Category"]; 
                         $_SESSION["Date"] = $_POST["Date"]; 
                         $_SESSION["Amount"] = $_POST["Amount"]; 
                         $_SESSION["Type"] = $_POST["Type"]; 
-                        header("Location: ?command=question");
+                        header("Location: ?command=gameover");
                     }
                 }
         
@@ -215,7 +218,14 @@ private function login() {
     
 
     public function gameover() {
-        
-        include("templates/GameOver.php");
+
+
+       // echo $name; 
+        $name = $_SESSION["Transaction_Name"]; 
+        //echo $name; 
+        $query = "select * from hw5_transaction where Name ='$name' order by t_date desc;"; 
+        $this->db->query($query);
+        $_SESSION["history"]  = $this->db->query($query);
+        include("templates/history.php");
     }
 }

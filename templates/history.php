@@ -54,6 +54,16 @@
                                 }
                                 
                             }
+
+                            foreach ($numbers as $key => $val) {
+                                $numbers[$key] = array_sum($val); 
+                            }
+                            foreach ($numbers as $key => $val) {
+                                echo "<tr> "; 
+                                    $string  = "sum of $key: $val ";
+                                    echo "<td>".$string."</td>"; 
+                                echo "</tr>";
+                            }
                             
                             print_r($numbers); 
                            

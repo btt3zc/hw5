@@ -51,7 +51,7 @@ class FinanceController {
 
 private function login() {
     $this->db->query("
-        CREATE TABLE IF NOT EXISTS USER(
+        CREATE TABLE IF NOT EXISTS user(
         id int not null AUTO_INCREMENT, 
         email text not null, 
         name text not null, 
@@ -172,13 +172,14 @@ private function login() {
 
 
         $this->db->query("
-        CREATE TABLE IF NOT EXISTS hw5_transaction(
+        CREATE TABLE IF NOT EXISTS hw5_transaction1(
             id int not null AUTO_INCREMENT, 
             Name text not null, 
             Category text not null, 
             t_date date not Null, 
             amount decimal(10,2) not null, 
             Type text not null, 
+            username text not null,
             primary key(id)); ");
             
             
@@ -192,8 +193,8 @@ private function login() {
                     //       PHP provides password_hash() and password_verify()
                     //       to provide password verification
 
-                    $insert = $this->db->query("insert into hw5_transaction (Name, Category, t_date,amount,Type) values (?, ?, ?,?,?);", 
-                            "sssss", $_POST["Transaction_Name"], $_POST["Category"], $_POST["Date"], $_POST["Amount"], $_POST["Type"]
+                    $insert = $this->db->query("insert into hw5_transaction1 (Name, Category, t_date,amount,Type,username) values (?, ?, ?,?,?,?);", 
+                            "ssssss", $_POST["Transaction_Name"], $_POST["Category"], $_POST["Date"], $_POST["Amount"], $_POST["Type"], $_SESSION["name"]
                             );
                     if ($insert === false) {
                         $error_msg = "Error inserting user";
@@ -221,9 +222,9 @@ private function login() {
 
 
        // echo $name; 
-        $name = $_SESSION["Transaction_Name"]; 
+        $name = $_SESSION["name"]; 
         //echo $name; 
-        $query = "select * from hw5_transaction where Name ='$name' order by t_date desc;"; 
+        $query = "select * from hw5_transaction1 where username ='$name' order by t_date desc;"; 
         $this->db->query($query);
         $_SESSION["history"]  = $this->db->query($query);
         include("templates/history.php");

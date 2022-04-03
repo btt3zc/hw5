@@ -19,7 +19,7 @@ class FinanceController {
                 $this->destroyCookies();
                 header("Location: ?command=login");
             case "replay":
-                $this->resetVariables();
+                //$this->resetVariables();
                 header("Location: ?command=question");
             case "gameover":
                 $this->gameover();

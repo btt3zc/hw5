@@ -5,13 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="Jason Nguyen" content="CS4640">
         <meta name="description" content="CS4640 Wordle Login Page">  
-        <title>Wordle Game Login</title>
+        <title>CS4640 Finance Controller Login</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous"> 
     </head>
     <body>
         <div class="container" style="margin-top: 15px;">
             <div class="row col-xs-8">
-                <h1>CS4640 Wordle Game - Get Started</h1>
+                <h1>CS4640 Finance Controller</h1>
                 <p> Welcome to our Wordle game!  To get started, enter a username and password.</p>
             </div>
             <div class="row justify-content-center">
@@ -37,7 +37,7 @@
                     </div>
 
                     <div class="text-center">                
-                    <button type="submit" class="btn btn-primary">Play Wordle</button>
+                    <button type="submit" class="btn btn-primary">Login</button>
                     </div>
                 </form>
                 </div>

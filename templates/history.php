@@ -11,8 +11,8 @@
     <body>
         <div class="container" style="margin-top: 15px;">
             <div class="row col-xs-8">
-                <h1>CS4640 Wordle Game</h1>
-                <h3>Hello <?=$_SESSION["name"]?>! Email:<?=$_SESSION["email"]?> </h3>
+                <h1>CS4640 Finance Controller</h1>
+                <h3>Hello <?=$_SESSION["name"]?>! Email:<?=$_SESSION["email"]?>    <a href="?command=logout" class="btn btn-danger">logout</a>   <a href="?command=replay" class="btn btn-danger">Add new transaction</a>   </h3>
             </div>
             <div class="row">
                 <div class="col-xs-8 mx-auto">
@@ -46,17 +46,22 @@
                                 echo "</tr>";
                             }
 
+                            $current_balance = 0; 
                             for ($i = 0; $i < count($_SESSION["history"]); $i++) {
                                 if(isset($numbers[$_SESSION["history"][$i]["Category"]])) {
                                     array_push($numbers[$_SESSION["history"][$i]["Category"]],$_SESSION["history"][$i]["amount"]);
                                 } else{
                                     $numbers[$_SESSION["history"][$i]["Category"]] = array($_SESSION["history"][$i]["amount"]);
                                 }
+
                                 
                             }
 
+                            
+
                             foreach ($numbers as $key => $val) {
                                 $numbers[$key] = array_sum($val); 
+                                $current_balance += array_sum($val);
                             }
                             foreach ($numbers as $key => $val) {
                                 echo "<tr> "; 
@@ -64,8 +69,13 @@
                                     echo "<td>".$string."</td>"; 
                                 echo "</tr>";
                             }
+
+                            echo "<tr> "; 
+                                $str = "Balance:$current_balance";
+                                echo "<td>".$str."</td>";
+                            echo "</tr>";
                             
-                            print_r($numbers); 
+                            
                            
 
                              

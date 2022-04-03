@@ -11,7 +11,7 @@
     <body>
         <div class="container" style="margin-top: 15px;">
             <div class="row col-xs-8">
-                <h1>CS4640 Wordle Game</h1>
+                <h1>CS4640 Finance Controller</h1>
                 <h3>Hello <?=$_SESSION["name"]?>! Email:<?=$_SESSION["email"]?> Guesses:<?=count($_SESSION["guess"])?> </h3>
             </div>
             <div class="row">
